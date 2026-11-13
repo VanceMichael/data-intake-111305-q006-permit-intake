@@ -19,7 +19,6 @@ class Origin(ThreadingHTTPServer):
         self.offsets = {}
         self.requests = []
         self.receipts = {}
-        self.drafts = copy.deepcopy(scenario.get('wizard_drafts', {}))
         self.state_lock = threading.Lock()
         super().__init__(("127.0.0.1", 0), Handler)
 
@@ -47,9 +46,6 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         path = urlsplit(self.path).path
-        from .wizard import handle_get
-        if handle_get(self, path):
-            return
         with self.server.state_lock:
             self.server.requests.append({"method": "GET", "path": self.path, "headers": dict(self.headers)})
             if path == "/portal/status":
@@ -104,9 +100,6 @@ class Handler(BaseHTTPRequestHandler):
         path = urlsplit(self.path).path
         raw = self.rfile.read(int(self.headers.get("Content-Length", "0")))
         fields = {name: values[0] for name, values in parse_qs(raw.decode()).items()}
-        from .wizard import handle_post
-        if handle_post(self, path, fields):
-            return
         with self.server.state_lock:
             self.server.requests.append({"method": "POST", "path": path, "fields": fields})
             if path != "/portal/submit":

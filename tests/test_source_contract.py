@@ -13,28 +13,11 @@ class SourceContractTests(unittest.TestCase):
         records = scenario["source_records"]
         with serve(scenario) as origin:
             client = Client(origin.base_url)
-            page = parse_page(client.fetch("/feed").body)
-            self.assertEqual(len(page.forms), 2)
-            self.assertEqual(page.forms[0]["fields"]["id"], records[0]["application"])
-            self.assertEqual(records[0]["status"], "draft")
-            schema = json.loads(client.fetch("/wizard/schema").body)
-            self.assertNotEqual(schema["steps"]["materials-water"]["required"], schema["steps"]["materials-field"]["required"])
-            remote = json.loads(client.fetch("/wizard/draft/APP-41").body)
-            self.assertGreater(remote["revision"], records[0]["draft_revision"])
-            self.assertNotEqual(remote["fields"]["licence_type"], records[0]["fields"]["licence_type"])
-            from urllib.request import Request, urlopen
-            from urllib.parse import urlencode
-            from urllib.error import HTTPError
-            fields = {"application": "APP-41", "revision": remote["revision"], "csrf": "form-2026-b", "step": "materials-water", "fields": "{}"}
-            with self.assertRaises(HTTPError) as caught:
-                urlopen(Request(origin.base_url + "/wizard/save-step", data=urlencode(fields).encode()), timeout=2)
-            self.assertEqual(caught.exception.code, 422)
-            fields.update({"step": "qualification", "fields": json.dumps({"company": "确认名称"})})
-            with urlopen(Request(origin.base_url + "/wizard/save-step", data=urlencode(fields).encode()), timeout=2) as response:
-                self.assertEqual(json.load(response)["revision"], remote["revision"] + 1)
-            with self.assertRaises(HTTPError) as caught:
-                urlopen(Request(origin.base_url + "/wizard/save-step", data=urlencode(fields).encode()), timeout=2)
-            self.assertEqual(caught.exception.code, 409)
+            self.assertEqual(len(records[0]["groups"]), 2)
+            self.assertEqual(records[0]["groups"][0]["attributes"][0]["value"], 7)
+            self.assertEqual(records[0]["groups"][1]["attributes"][0]["value"], 8)
+            self.assertEqual(records[0]["groups"][1]["attributes"][1]["tag"], "no-value")
+            self.assertLess(records[1]["printer_up_time"], records[0]["printer_up_time"])
 
     def test_every_record_has_the_declared_source_identity(self):
         scenario = load_scenario()

@@ -1,17 +1,17 @@
 [
   {
-    "name": "branch_change",
-    "situation": "从水务资格退回改成野外资格",
-    "observable": "保留共用输入，失效旧分支并提示新材料"
+    "name": "group_boundaries",
+    "situation": "一个响应返回多个作业组",
+    "observable": "属性不跨组串到另一作业"
   },
   {
-    "name": "draft_divergence",
-    "situation": "隔天恢复且门户与本地都改了字段",
-    "observable": "三方差异可见，不用旧令牌覆盖门户"
+    "name": "printer_restart",
+    "situation": "同设备重启后复用作业号",
+    "observable": "历史办件不与新作业混同"
   },
   {
-    "name": "server_validation",
-    "situation": "本地字段齐全但门户未校验该步",
-    "observable": "进度不冒充完成，预览绑定门户草稿版本"
+    "name": "queue_disappearance",
+    "situation": "作业不再出现在当前查询",
+    "observable": "缺乏终态证据时保持待核"
   }
 ]
