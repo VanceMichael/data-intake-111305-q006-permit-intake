@@ -1,0 +1,107 @@
+{
+  "identity_fields": [
+    "application",
+    "form_version"
+  ],
+  "source_records": [
+    {
+      "application": "APP-41",
+      "form_version": "v2",
+      "step": "materials",
+      "status": "draft",
+      "receipt": null,
+      "fields": {
+        "company": "山岚实验室",
+        "licence_type": "water"
+      }
+    },
+    {
+      "application": "APP-42",
+      "form_version": "v2",
+      "step": "confirm",
+      "status": "accepted",
+      "receipt": "ACK-42",
+      "fields": {
+        "company": "青溪站",
+        "licence_type": "field"
+      }
+    }
+  ],
+  "portal": {
+    "csrf": "form-2026-b"
+  },
+  "routes": {
+    "/feed": {
+      "body": "<!doctype html><html lang='zh'><meta charset='utf-8'><title>来源目录</title><body>\n<article><h2>APP-41</h2>\n<dl><dt>application</dt><dd>APP-41</dd><dt>form_version</dt><dd>v2</dd><dt>step</dt><dd>materials</dd><dt>status</dt><dd>draft</dd><dt>receipt</dt><dd>None</dd><dt>fields</dt><dd>{&#x27;company&#x27;: &#x27;山岚实验室&#x27;, &#x27;licence_type&#x27;: &#x27;water&#x27;}</dd></dl>\n<form action=\"/portal/submit\" method=\"post\"><input type=\"hidden\" name=\"csrf\" value=\"form-2026-b\"><input name=\"id\" value=\"APP-41\"><button type=\"submit\">确认</button></form>\n</article>\n<article><h2>APP-42</h2>\n<dl><dt>application</dt><dd>APP-42</dd><dt>form_version</dt><dd>v2</dd><dt>step</dt><dd>confirm</dd><dt>status</dt><dd>accepted</dd><dt>receipt</dt><dd>ACK-42</dd><dt>fields</dt><dd>{&#x27;company&#x27;: &#x27;青溪站&#x27;, &#x27;licence_type&#x27;: &#x27;field&#x27;}</dd></dl>\n<form action=\"/portal/submit\" method=\"post\"><input type=\"hidden\" name=\"csrf\" value=\"form-2026-b\"><input name=\"id\" value=\"APP-42\"><button type=\"submit\">确认</button></form>\n</article>\n<script type=\"application/json\" id=\"source-records\">[{\"application\": \"APP-41\", \"form_version\": \"v2\", \"step\": \"materials\", \"status\": \"draft\", \"receipt\": null, \"fields\": {\"company\": \"山岚实验室\", \"licence_type\": \"water\"}}, {\"application\": \"APP-42\", \"form_version\": \"v2\", \"step\": \"confirm\", \"status\": \"accepted\", \"receipt\": \"ACK-42\", \"fields\": {\"company\": \"青溪站\", \"licence_type\": \"field\"}}]</script></body></html>",
+      "content_type": "text/html; charset=utf-8",
+      "headers": {
+        "ETag": "feed-1"
+      }
+    },
+    "/rate-limited": {
+      "status": 429,
+      "headers": {
+        "Retry-After": "2"
+      },
+      "json": {
+        "error": "quota"
+      }
+    },
+    "/unstable": [
+      {
+        "status": 503,
+        "body": "temporarily unavailable"
+      },
+      {
+        "json": {
+          "items": []
+        }
+      }
+    ],
+    "/range": {
+      "body": "0123456789",
+      "range": true
+    },
+    "/range-ignored": {
+      "body": "0123456789"
+    },
+    "/truncated": {
+      "body": "partial",
+      "truncate": true
+    },
+    "/observations/1": {
+      "json": {
+        "items": [
+          {
+            "application": "APP-41",
+            "form_version": "v2",
+            "step": "materials",
+            "status": "draft",
+            "receipt": null,
+            "fields": {
+              "company": "山岚实验室",
+              "licence_type": "water"
+            }
+          }
+        ]
+      }
+    },
+    "/observations/2": {
+      "json": {
+        "items": [
+          {
+            "application": "APP-42",
+            "form_version": "v2",
+            "step": "confirm",
+            "status": "accepted",
+            "receipt": "ACK-42",
+            "fields": {
+              "company": "青溪站",
+              "licence_type": "field"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

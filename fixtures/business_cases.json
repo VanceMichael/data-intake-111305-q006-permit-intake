@@ -1,0 +1,17 @@
+[
+  {
+    "name": "accepted_without_response",
+    "situation": "受理成功但客户端连接丢失",
+    "observable": "先核验回执，不自动重复提交"
+  },
+  {
+    "name": "handoff",
+    "situation": "操作员接力且页面版本更新",
+    "observable": "重新读状态并保留已确认输入"
+  },
+  {
+    "name": "manual_pause",
+    "situation": "一笔缺材料",
+    "observable": "其他办件不受阻，暂停原因可查"
+  }
+]
