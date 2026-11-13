@@ -17,8 +17,24 @@ class SourceContractTests(unittest.TestCase):
             self.assertEqual(len(page.forms), 2)
             self.assertEqual(page.forms[0]["fields"]["id"], records[0]["application"])
             self.assertEqual(records[0]["status"], "draft")
-            self.assertEqual(records[1]["status"], "accepted")
-            self.assertIsNotNone(records[1]["receipt"])
+            schema = json.loads(client.fetch("/wizard/schema").body)
+            self.assertNotEqual(schema["steps"]["materials-water"]["required"], schema["steps"]["materials-field"]["required"])
+            remote = json.loads(client.fetch("/wizard/draft/APP-41").body)
+            self.assertGreater(remote["revision"], records[0]["draft_revision"])
+            self.assertNotEqual(remote["fields"]["licence_type"], records[0]["fields"]["licence_type"])
+            from urllib.request import Request, urlopen
+            from urllib.parse import urlencode
+            from urllib.error import HTTPError
+            fields = {"application": "APP-41", "revision": remote["revision"], "csrf": "form-2026-b", "step": "materials-water", "fields": "{}"}
+            with self.assertRaises(HTTPError) as caught:
+                urlopen(Request(origin.base_url + "/wizard/save-step", data=urlencode(fields).encode()), timeout=2)
+            self.assertEqual(caught.exception.code, 422)
+            fields.update({"step": "qualification", "fields": json.dumps({"company": "确认名称"})})
+            with urlopen(Request(origin.base_url + "/wizard/save-step", data=urlencode(fields).encode()), timeout=2) as response:
+                self.assertEqual(json.load(response)["revision"], remote["revision"] + 1)
+            with self.assertRaises(HTTPError) as caught:
+                urlopen(Request(origin.base_url + "/wizard/save-step", data=urlencode(fields).encode()), timeout=2)
+            self.assertEqual(caught.exception.code, 409)
 
     def test_every_record_has_the_declared_source_identity(self):
         scenario = load_scenario()

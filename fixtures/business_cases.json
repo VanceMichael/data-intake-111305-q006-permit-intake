@@ -1,17 +1,17 @@
 [
   {
-    "name": "accepted_without_response",
-    "situation": "受理成功但客户端连接丢失",
-    "observable": "先核验回执，不自动重复提交"
+    "name": "branch_change",
+    "situation": "从水务资格退回改成野外资格",
+    "observable": "保留共用输入，失效旧分支并提示新材料"
   },
   {
-    "name": "handoff",
-    "situation": "操作员接力且页面版本更新",
-    "observable": "重新读状态并保留已确认输入"
+    "name": "draft_divergence",
+    "situation": "隔天恢复且门户与本地都改了字段",
+    "observable": "三方差异可见，不用旧令牌覆盖门户"
   },
   {
-    "name": "manual_pause",
-    "situation": "一笔缺材料",
-    "observable": "其他办件不受阻，暂停原因可查"
+    "name": "server_validation",
+    "situation": "本地字段齐全但门户未校验该步",
+    "observable": "进度不冒充完成，预览绑定门户草稿版本"
   }
 ]
