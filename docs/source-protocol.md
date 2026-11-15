@@ -25,3 +25,7 @@
 ## 领域接入契约
 
 本项目使用打印网关已解码的 IPP 属性信封，保留属性组边界和每个属性的 value-tag。job-state 枚举及 printer-up-time 等字段参考 RFC 8011，编码参考 RFC 8010。网关身份和observation是桥接字段。接收范围只读状态，不投递文档、不重打、不操作真实打印机。
+
+## 采集层口径
+
+`ledger.py` 在归档之上重放信封：设备按 printer_uuid 识别（多 URI 为别名，uuid 变化为替换），printer_up_time 回退开启新纪元，job-id 只在纪元内唯一。属性取值区分 value / out_of_band（no-value、unknown 等）/ absent 三种在场状态。作业消失只记录候选原因（retention_expired_or_history_scope、query_scope_or_permission、listing_scope_undeclared、fetch_incomplete），不产生完成结论。回执的评估分 processed / in_progress / unverified 三档，处理时间由 time-at-* 与抓取到达时间推算并保留推算依据；所有结论附证据 capture 摘要，可按 digest 从归档库取回原始内容核对。

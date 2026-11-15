@@ -62,6 +62,12 @@ class Archive:
         rows = self.connection.execute(query + " ORDER BY id", params).fetchall()
         return [{**dict(row), "headers": json.loads(row["headers"])} for row in rows]
 
+    def capture(self, capture_id):
+        row = self.connection.execute("SELECT * FROM captures WHERE id=?", (capture_id,)).fetchone()
+        if row is None:
+            raise KeyError(capture_id)
+        return {**dict(row), "headers": json.loads(row["headers"])}
+
     def body(self, capture_id):
         row = self.connection.execute(
             "SELECT b.digest,b.content FROM bodies b JOIN captures c ON c.digest=b.digest WHERE c.id=?",
