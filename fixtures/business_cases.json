@@ -13,5 +13,30 @@
     "name": "queue_disappearance",
     "situation": "作业不再出现在当前查询",
     "observable": "缺乏终态证据时保持待核"
+  },
+  {
+    "name": "value_tag_distinctions",
+    "situation": "同一属性分别以 no-value、unknown、unsupported 或根本不返回出现",
+    "observable": "四种口径在属性行与快照里可区分，不统一折叠为空"
+  },
+  {
+    "name": "device_alias_vs_replacement",
+    "situation": "同 UUID 出现多个 URI，或同一 URI 换了 UUID",
+    "observable": "前者记为同设备 URI 史，后者建立新设备且旧作业不迁移"
+  },
+  {
+    "name": "interleaved_polling_and_restart",
+    "situation": "多个窗口交错轮询、采集进程重启后继续采集",
+    "observable": "重复观察幂等、跨进程空档的世代标为连续性待核"
+  },
+  {
+    "name": "unattributed_group",
+    "situation": "属性组缺少可用的整数 job-id",
+    "observable": "原始组保留在待人工核对清单，不猜测归属、不丢弃"
+  },
+  {
+    "name": "incomplete_fetch",
+    "situation": "轮询响应不完整或 HTTP 非 200",
+    "observable": "记录失败尝试，本次不据此推断任何作业消失或完成"
   }
 ]

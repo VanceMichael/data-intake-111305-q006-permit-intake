@@ -1,0 +1,321 @@
+{
+  "identity_fields": [
+    "gateway",
+    "observation"
+  ],
+  "portal": {
+    "csrf": "form-2026-b"
+  },
+  "routes": {
+    "/feed": [
+      {
+        "json": {
+          "items": [
+            {
+              "gateway": "window-a",
+              "observation": "1",
+              "printer_uuid": "urn:uuid:synthetic-a",
+              "printer_uri": "ipp://local/printer-a",
+              "printer_up_time": 800,
+              "groups": [
+                {
+                  "tag": "job-attributes",
+                  "attributes": [
+                    {
+                      "name": "job-id",
+                      "tag": "integer",
+                      "value": 7
+                    },
+                    {
+                      "name": "job-state",
+                      "tag": "enum",
+                      "value": 5
+                    },
+                    {
+                      "name": "job-state-reasons",
+                      "tag": "keyword",
+                      "value": "job-printing"
+                    },
+                    {
+                      "name": "time-at-completed",
+                      "tag": "no-value",
+                      "value": null
+                    }
+                  ]
+                },
+                {
+                  "tag": "job-attributes",
+                  "attributes": [
+                    {
+                      "name": "job-id",
+                      "tag": "integer",
+                      "value": 8
+                    },
+                    {
+                      "name": "job-state",
+                      "tag": "enum",
+                      "value": 3
+                    },
+                    {
+                      "name": "job-state-reasons",
+                      "tag": "keyword",
+                      "value": "none"
+                    },
+                    {
+                      "name": "time-at-completed",
+                      "tag": "no-value",
+                      "value": null
+                    }
+                  ]
+                },
+                {
+                  "tag": "job-attributes",
+                  "attributes": [
+                    {
+                      "name": "job-state",
+                      "tag": "enum",
+                      "value": 5
+                    },
+                    {
+                      "name": "job-state-reasons",
+                      "tag": "keyword",
+                      "value": "job-data-insufficient"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "json": {
+          "items": [
+            {
+              "gateway": "window-a",
+              "observation": "2",
+              "printer_uuid": "urn:uuid:synthetic-a",
+              "printer_uri": "ipp://local/printer-a",
+              "printer_up_time": 830,
+              "groups": [
+                {
+                  "tag": "job-attributes",
+                  "attributes": [
+                    {
+                      "name": "job-id",
+                      "tag": "integer",
+                      "value": 7
+                    },
+                    {
+                      "name": "job-state",
+                      "tag": "enum",
+                      "value": 9
+                    },
+                    {
+                      "name": "job-state-reasons",
+                      "tag": "keyword",
+                      "value": "completed-successfully"
+                    },
+                    {
+                      "name": "time-at-completed",
+                      "tag": "integer",
+                      "value": 820
+                    }
+                  ]
+                },
+                {
+                  "tag": "job-attributes",
+                  "attributes": [
+                    {
+                      "name": "job-id",
+                      "tag": "integer",
+                      "value": 8
+                    },
+                    {
+                      "name": "job-state",
+                      "tag": "enum",
+                      "value": 3
+                    },
+                    {
+                      "name": "job-state-reasons",
+                      "tag": "keyword",
+                      "value": "none"
+                    },
+                    {
+                      "name": "time-at-completed",
+                      "tag": "no-value",
+                      "value": null
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "json": {
+          "items": [
+            {
+              "gateway": "window-a",
+              "observation": "3",
+              "printer_uuid": "urn:uuid:synthetic-a",
+              "printer_uri": "ipp://local/alias-a",
+              "printer_up_time": 860,
+              "groups": [
+                {
+                  "tag": "job-attributes",
+                  "attributes": [
+                    {
+                      "name": "job-id",
+                      "tag": "integer",
+                      "value": 8
+                    },
+                    {
+                      "name": "job-state",
+                      "tag": "enum",
+                      "value": 9
+                    },
+                    {
+                      "name": "job-state-reasons",
+                      "tag": "keyword",
+                      "value": "completed-successfully"
+                    },
+                    {
+                      "name": "time-at-completed",
+                      "tag": "integer",
+                      "value": 855
+                    }
+                  ]
+                },
+                {
+                  "tag": "job-attributes",
+                  "attributes": [
+                    {
+                      "name": "job-id",
+                      "tag": "integer",
+                      "value": 9
+                    },
+                    {
+                      "name": "job-state",
+                      "tag": "enum",
+                      "value": 5
+                    },
+                    {
+                      "name": "job-state-reasons",
+                      "tag": "keyword",
+                      "value": "job-printing"
+                    },
+                    {
+                      "name": "time-at-completed",
+                      "tag": "unknown",
+                      "value": null
+                    },
+                    {
+                      "name": "job-k-octets",
+                      "tag": "unsupported",
+                      "value": null
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "json": {
+          "items": [
+            {
+              "gateway": "window-a",
+              "observation": "4",
+              "printer_uuid": "urn:uuid:synthetic-a",
+              "printer_uri": "ipp://local/alias-a",
+              "printer_up_time": 12,
+              "groups": [
+                {
+                  "tag": "job-attributes",
+                  "attributes": [
+                    {
+                      "name": "job-id",
+                      "tag": "integer",
+                      "value": 7
+                    },
+                    {
+                      "name": "job-state",
+                      "tag": "enum",
+                      "value": 3
+                    },
+                    {
+                      "name": "job-state-reasons",
+                      "tag": "keyword",
+                      "value": "none"
+                    },
+                    {
+                      "name": "time-at-completed",
+                      "tag": "no-value",
+                      "value": null
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "json": {
+          "items": [
+            {
+              "gateway": "window-a",
+              "observation": "5",
+              "printer_uuid": "urn:uuid:synthetic-b",
+              "printer_uri": "ipp://local/alias-a",
+              "printer_up_time": 300,
+              "groups": [
+                {
+                  "tag": "job-attributes",
+                  "attributes": [
+                    {
+                      "name": "job-id",
+                      "tag": "integer",
+                      "value": 1
+                    },
+                    {
+                      "name": "job-state",
+                      "tag": "enum",
+                      "value": 5
+                    },
+                    {
+                      "name": "job-state-reasons",
+                      "tag": "keyword",
+                      "value": "job-printing"
+                    },
+                    {
+                      "name": "time-at-completed",
+                      "tag": "no-value",
+                      "value": null
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "/rate-limited": {
+      "status": 429,
+      "headers": {
+        "Retry-After": "2"
+      },
+      "json": {
+        "error": "quota"
+      }
+    },
+    "/truncated": {
+      "body": "partial",
+      "truncate": true
+    }
+  }
+}

@@ -25,3 +25,32 @@
 ## 领域接入契约
 
 本项目使用打印网关已解码的 IPP 属性信封，保留属性组边界和每个属性的 value-tag。job-state 枚举及 printer-up-time 等字段参考 RFC 8011，编码参考 RFC 8010。网关身份和observation是桥接字段。接收范围只读状态，不投递文档、不重打、不操作真实打印机。
+
+## 作业采集层口径
+
+`permit_intake.ipp`、`jobstore.py`、`ingest.py`、`reconcile.py` 在原始接收之上构建作业资料采集层，原始响应仍由归档库只追加保存，作业库通过 capture_id 与正文摘要回指原文。
+
+### 属性组与取值口径
+
+- 属性组是作业的边界：一个响应里的多个 `job-attributes` 组分别落库，属性不跨组摊平；没有整数 `job-id` 的组进入待人工核对清单，不猜测归属。
+- 同一属性的五种情况严格区分：带值 `value`、显式 `no-value`（RFC 8010 0x13）、`unknown`（0x12）、`unsupported`（0x10）、以及属性未返回的 `missing`。后四种不互相折叠，快照里同时保留 value-tag。
+
+### 作业身份与重启世代
+
+- 作业键不是单个 job-id，而是（设备 UUID、重启世代 generation、job-id）。打印机重启后 job-id 复用也不会把两次办件串起来。
+- 设备以 `printer_uuid` 为稳定身份：同一 UUID 下出现的多个 printer-uri 记入该设备的 URI 史（别名）；同一 URI 出现新 UUID 视为设备替换，新旧设备的作业各自保留。
+- 世代只依据 printer-up-time 证据划分，与采集进程是否重启无关：uptime 比最近值回退超过 `JobStore.RESTART_UPTIME_DELTA`（默认 60 秒）才判定重启并开新世代；小幅回退按多窗口乱序处理；uptime 缺失时不新开世代，从未取得过 uptime 的设备其首个世代标 `continuity_verified=0` 待核。
+
+### 消失、终态与处理时间
+
+- 只有观察到 IPP 终态才作数：`job-state=9` (completed) 进入“已处理（有终态证据）”；`canceled`/`aborted` 是终态但不代表纸张输出，留在待核清单。
+- 作业从查询中消失不自动判完成：最近一次**完整且解码成功**的获取里已无该作业且无终态证据时，原因（留存到期、查询权限变化、本次获取不完整）无法区分，统一列待核；最近获取本身不完整时给出单独原因码。没有任何布尔“成功”字段，系统不替人重打。
+- 处理时间优先保留 IPP 原始 `time-at-completed` 开机秒数；在同设备存在 printer-up-time 基准观察时推导 UTC 墙上时间并做单调性校验，基准缺失时明确标记不可核实，不编造时间。
+
+### 轮询、重启与重放
+
+- 每次轮询尝试（含 HTTP 非 200、截断、解码失败）都写入 `fetch_attempts`，失败获取不会被解释成“队列空”。
+- 同一 `(gateway, observation)` 重复送达幂等：只追加送达证据；原文摘要不一致时标记 `payload_conflict` 且不覆盖首次原文。
+- 写事务以 `BEGIN IMMEDIATE` 取得库级写锁，支持多窗口线程交错与多进程访问；采集进程重启后结论不依赖进程身份。
+- `replay` 可从原始归档在新作业库上重建全部证据，结果与实时采集一致，过程同样幂等。
+
